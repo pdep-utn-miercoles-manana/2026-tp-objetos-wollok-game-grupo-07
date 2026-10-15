@@ -1,0 +1,8 @@
+{
+  "name": "tp-trash-bandicoot",
+  "version": "1.0.0",
+  "description": "TP Wollok Game - Trash Bandicoot",
+  "wollok": {
+"resourceFolder": "assets"
+  }
+}

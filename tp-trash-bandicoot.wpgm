@@ -1,0 +1,99 @@
+import wollok.game.*
+
+
+object jugador {
+  var property position = game.at(4, 2) // posicion inicial
+
+    
+    method image() = "assets/frontalpersonaje.png" 
+
+    method moverDerecha() {
+    if (position.x() < game.width() - 1)
+      position = game.at(position.x() + 1, position.y())
+    }
+
+    method moverIzquierda() {
+    if (position.x() > 0)
+      position = game.at(position.x() - 1, position.y())
+    }
+
+    method moverArriba() {
+    if (position.y() < game.height() - 1)
+      position = game.at(position.x(), position.y() + 1)
+    }
+
+    method moverAbajo() {
+    if (position.y() > 0)
+      position = game.at(position.x(), position.y() - 1)
+    }
+}
+
+class Puerta {
+    var property position
+    var property abierta = false
+    const piso
+
+    method image() {
+    if (abierta) 
+      return "assets/puerta_abierta.png"
+    else 
+      return "assets/puerta_cerrada.png"
+    }
+
+    method abrir(){
+        abierta = true
+    }
+
+    method cerrar() {
+        abierta = false
+    }
+
+    method puntos() = piso * 10  // piso 1 = 10pts, piso 2 = 20pts, piso 3 = 30pts
+}   
+
+const puerta1 = new Puerta(position = game.at(2, 2), piso = 1)
+const puerta2 = new Puerta(position = game.at(7, 2), piso = 1)
+const puerta3 = new Puerta(position = game.at(2, 5), piso = 2)
+const puerta4 = new Puerta(position = game.at(7, 5), piso = 2)
+const puerta5 = new Puerta(position = game.at(2, 8), piso = 3)
+const puerta6 = new Puerta(position = game.at(7, 8), piso = 3)
+
+program juego {
+  
+  game.title("Trash Bandicoot")
+  game.cellSize(80)
+  game.width(10)  
+  game.height(10)
+
+   const puertas = [puerta1,puerta2,puerta3,puerta4,puerta5,puerta6]
+  
+  // game.boardGround("assets/edificio.png")
+  puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
+
+
+  game.onTick(3000,"abrirPuerta", {
+    const cerradas = puertas.filter({puerta => !puerta.abierta()})
+    if (cerradas.size() > 0){
+
+        const elegida = cerradas.get((0).randomUpTo(cerradas.size()))
+        elegida.abrir()
+
+    }
+  }) // cada 3 segundos abri puerta random
+
+
+    game.onTick(10000, "cerrarPuertas", {
+    puertas.filter({ puerta => puerta.abierta() }).forEach({ puerta => puerta.cerrar() }) // de las puertas cerrarlas cada 10seg (hay q probarla ni idea)
+    })
+
+  game.addVisual(jugador)
+
+  keyboard.right().onPressDo({ jugador.moverDerecha() })
+  keyboard.left().onPressDo({ jugador.moverIzquierda() })
+  keyboard.up().onPressDo({ jugador.moverArriba() })
+  keyboard.down().onPressDo({ jugador.moverAbajo() })
+
+
+  game.start()
+}
+
