@@ -1,9 +1,10 @@
 import wollok.game.*
 
 object hud {
-  var property position = game.at(0,9) // arriba de todo a la izquierda
-  method image() = "assets/invisible.png" // no deja si no le pones un asset asi que este no se ve
-  method texto() = "Tiempo: " + cronometro.segundos() + " " + "Puntaje: " + puntaje.total()
+  method position() = game.at(1, 0)
+  method text() = "Tiempo: " + cronometro.segundos() + "  Puntaje: " + puntaje.total()
+  method textColor() = "000000FF"  //negro
+  method textSize() = 30 // pq se ve ultra chiquito
 }
 
 object cronometro {
@@ -13,6 +14,9 @@ object cronometro {
   method seTerminoElTiempo() = segundos <= 0
   method image() = "assets/invisible.png"
   method position() = game.at(0, 9)
+  method agregarTiempo(tiempoExtra){
+    segundos += tiempoExtra
+  }
   
 }
 
@@ -28,37 +32,71 @@ object puntaje {
 object jugador {
     var property position = game.at(4, 2) // posicion inicial
     var property tieneBolsa = false
-    
+    var property deQuePuertaEsBolsa = null
+
     method image() {
     if (tieneBolsa) return "assets/crashfrontalbolsa.png"
     else return "assets/frontalpersonaje.png"
   }
+    // LISTA DE COLICIONES
+    const posicionesValidas = [
+      // planta baja 
+      game.at(0,0), game.at(1,0), game.at(2,0), game.at(3,0), game.at(4,0),
+      game.at(5,0), game.at(6,0), game.at(7,0), game.at(8,0),
+      game.at(0,1), game.at(1,1), game.at(2,1), game.at(3,1), game.at(4,1),
+      game.at(5,1), game.at(6,1), game.at(7,1), game.at(8,1),
 
+      // piso 1 (y=2) 
+      game.at(1,2), game.at(2,2), game.at(3,2), game.at(4,2),
+      game.at(5,2), game.at(6,2), game.at(7,2),
 
+      // Escaleras entre piso 1 y 2 (x=0 y x=8, y=3 y y=4)
+      game.at(0,2), game.at(0,3), game.at(0,4),
+      game.at(8,2), game.at(8,3), game.at(8,4),
+
+      // Piso 2 (y=5) 
+      game.at(1,5), game.at(2,5), game.at(3,5), game.at(4,5),
+      game.at(5,5), game.at(6,5), game.at(7,5),
+
+      // Escaleras entre piso 2 y 3 (x=0 y x=8, y=6 y y=7)
+      game.at(0,5), game.at(0,6), game.at(0,7),
+      game.at(8,5), game.at(8,6), game.at(8,7),
+
+      // Piso 3 (y=8) 
+      game.at(1,8), game.at(2,8), game.at(3,8), game.at(4,8),
+      game.at(5,8), game.at(6,8), game.at(7,8),
+      game.at(0,8), game.at(8,8)
+    ]
+     // forma mas dificil de hacer colisiones creo que esta bien, igual despues pregunto
     method moverDerecha() {
-    if (position.x() < game.width() - 1)
-      position = game.at(position.x() + 1, position.y())
+    const nueva = game.at(position.x() + 1, position.y())
+    if (posicionesValidas.contains(nueva)) position = nueva
     }
 
     method moverIzquierda() {
-    if (position.x() > 0)
-      position = game.at(position.x() - 1, position.y())
+    const nueva = game.at(position.x() - 1, position.y())
+    if (posicionesValidas.contains(nueva)) position = nueva
     }
 
     method moverArriba() {
-    if (position.y() < game.height() - 1)
-      position = game.at(position.x(), position.y() + 1)
+    const nueva = game.at(position.x(), position.y() + 1)
+    if (posicionesValidas.contains(nueva)) position = nueva
     }
 
     method moverAbajo() {
-    if (position.y() > 0)
-      position = game.at(position.x(), position.y() - 1)
+    const nueva = game.at(position.x(), position.y() - 1)
+    if (posicionesValidas.contains(nueva)) position = nueva
     }
 
-    method agarrar(){ tieneBolsa = true
+    method agarrar(puerta){ 
+      tieneBolsa = true
+      deQuePuertaEsBolsa = puerta
     }
 
-    method soltar(){tieneBolsa = false}
+    method soltar(){
+      tieneBolsa = false
+      deQuePuertaEsBolsa = null
+    }
 }
 
 class Puerta {
@@ -75,26 +113,49 @@ class Puerta {
 
     method abrir(){
         abierta = true
+        //const volAbrir = game.sound("assets/puerta_abrir.wav").play()
+        //volAbrir.volume(0.01)
+        
     }
-
+      // POR ALGUN MOTIVO CUANDO PONGO VOLUMEN NO FUNCIONA EL MECANISMO DE ABRIR Y CERRAR PUERTAS BIEN
     method cerrar() {
         abierta = false
+        //const volCerrar = game.sound("assets/puerta_cerrar.wav").play()
+        //volCerrar.volume(0.01)
+        
         
     }
 
     method puntos() = piso * 10  // piso 1 = 10pts, piso 2 = 20pts, piso 3 = 30pts
+    method tiempoDado() = 10 - (piso * 3)  // piso1=7seg, piso2=4seg, piso3=1seg
 
     method agarrarBolsa(){
       abierta = false
     }
 }   
 
-const puerta1 = new Puerta(position = game.at(2, 2), piso = 1)
-const puerta2 = new Puerta(position = game.at(7, 2), piso = 1)
-const puerta3 = new Puerta(position = game.at(2, 5), piso = 2)
-const puerta4 = new Puerta(position = game.at(7, 5), piso = 2)
-const puerta5 = new Puerta(position = game.at(2, 8), piso = 3)
-const puerta6 = new Puerta(position = game.at(7, 8), piso = 3)
+const puerta1 = new Puerta(position = game.at(1, 2), piso = 1)
+const puerta2 = new Puerta(position = game.at(4, 2), piso = 1)  // nueva del medio
+const puerta3 = new Puerta(position = game.at(7, 2), piso = 1)
+const puerta4 = new Puerta(position = game.at(1, 5), piso = 2)
+const puerta5 = new Puerta(position = game.at(4, 5), piso = 2)  // nueva del medio
+const puerta6 = new Puerta(position = game.at(7, 5), piso = 2)
+const puerta7 = new Puerta(position = game.at(1, 8), piso = 3)
+const puerta8 = new Puerta(position = game.at(4, 8), piso = 3)  // nueva del medio
+const puerta9 = new Puerta(position = game.at(7, 8), piso = 3)
+
+object camionRecolector {
+  var property position = game.at(4,0)
+
+  method image() = "assets/camionBasura.png"
+
+  method agarrarBolsa() {
+  if (jugador.deQuePuertaEsBolsa() != null) {
+    puntaje.sumar(jugador.deQuePuertaEsBolsa().puntos())
+    cronometro.agregarTiempo(jugador.deQuePuertaEsBolsa().tiempoDado())
+  }
+}
+}
 
 program juego {
   
@@ -103,9 +164,18 @@ program juego {
   game.width(9)  
   game.height(9)
 
-   const puertas = [puerta1,puerta2,puerta3,puerta4,puerta5,puerta6]
+  const fondo = game.sound("assets/musica_fondo.wav")
+  fondo.shouldLoop(true)
+  fondo.volume(0.1)
+  keyboard.m().onPressDo({ fondo.volume(0) }) // BAJAR VOLUMEN CON LA M!!!!!!!!!
+
+  game.schedule(500, { fondo.play()} )
+
+
+   const puertas = [puerta1, puerta2, puerta3, puerta4, puerta5, puerta6, puerta7, puerta8, puerta9]
   
-   //game.boardGround("assets/edificio.png")
+   game.boardGround("assets/fondo_hotel.png")
+   //game.boardGround("assets/fondotemporal.jpg")
    puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
 
 
@@ -121,9 +191,10 @@ program juego {
 
     game.onTick(10000, "cerrarPuertas", {
     puertas.filter({ puerta => puerta.abierta() }).forEach({ puerta => puerta.cerrar() }) // de las puertas cerrarlas cada 10seg (hay q probarla ni idea)
-    })
+  })
 
   game.addVisual(jugador)
+  game.addVisual(camionRecolector)
 
   keyboard.right().onPressDo({ jugador.moverDerecha() }) // movmiento
   keyboard.left().onPressDo({ jugador.moverIzquierda() })
@@ -131,17 +202,28 @@ program juego {
   keyboard.down().onPressDo({ jugador.moverAbajo() })
 
   keyboard.space().onPressDo({
-    const puertaEnFrenteDeCrash = puertas.find({puerta => puerta.abierta() && puerta.position() == jugador.position()})
-    if(puertas != null && !jugador.tieneBolsa()){ // SOLO PUEDE AGARRAR 1 BOLSA A LA VEZ
-      
-      puertaEnFrenteDeCrash.agarrarBolsa()
-      jugador.agarrar()
+    if(jugador.tieneBolsa()){
+      if(jugador.position() == camionRecolector.position()){
+        camionRecolector.agarrarBolsa()
+        jugador.soltar()
+        
+      }
+    } else {
+      const puerta = puertas.find({ puerta => puerta.abierta() && puerta.position() == jugador.position() })
+      if (puerta != null) {
+        puerta.agarrarBolsa()
+        jugador.agarrar(puerta)
+      }
     }
-   })
 
-  game.addVisual(hud) // agregar contador de tiempo y puntaje (provicional)
-  game.onTick(1000, "bajarTiempo", {cronometro.tick() game.say(hud, hud.texto())  
-  if (cronometro.seTerminoElTiempo()) {game.stop()}})
+    })
+
+  game.addVisual(hud)
+  game.onTick(1000, "bajarTiempo", {
+  cronometro.tick()
+  if (cronometro.seTerminoElTiempo()) { game.stop() }
+  })
+
   game.start()
 }
 
