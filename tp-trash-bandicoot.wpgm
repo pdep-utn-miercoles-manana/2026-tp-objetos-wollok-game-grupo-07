@@ -1,11 +1,39 @@
 import wollok.game.*
 
+object hud {
+  var property position = game.at(0,9) // arriba de todo a la izquierda
+  method image() = "assets/invisible.png" // no deja si no le pones un asset asi que este no se ve
+  method texto() = "Tiempo: " + cronometro.segundos() + " " + "Puntaje: " + puntaje.total()
+}
+
+object cronometro {
+  var property segundos = 60
+
+  method tick() { segundos = segundos - 1 }
+  method seTerminoElTiempo() = segundos <= 0
+  method image() = "assets/invisible.png"
+  method position() = game.at(0, 9)
+  
+}
+
+object puntaje {
+  var property total = 0
+  method sumar(puntos) { total +=  puntos }
+  method image() = "assets/invisible.png"  
+  method position() = game.at(3, 9)
+  
+}
+
 
 object jugador {
-  var property position = game.at(4, 2) // posicion inicial
-
+    var property position = game.at(4, 2) // posicion inicial
+    var property tieneBolsa = false
     
-    method image() = "assets/frontalpersonaje.png" 
+    method image() {
+    if (tieneBolsa) return "assets/crashfrontalbolsa.png"
+    else return "assets/frontalpersonaje.png"
+  }
+
 
     method moverDerecha() {
     if (position.x() < game.width() - 1)
@@ -26,6 +54,11 @@ object jugador {
     if (position.y() > 0)
       position = game.at(position.x(), position.y() - 1)
     }
+
+    method agarrar(){ tieneBolsa = true
+    }
+
+    method soltar(){tieneBolsa = false}
 }
 
 class Puerta {
@@ -35,9 +68,9 @@ class Puerta {
 
     method image() {
     if (abierta) 
-      return "assets/puerta_abierta.png"
+      return "assets/puertanuevahombre.png"
     else 
-      return "assets/puerta_cerrada.png"
+      return "assets/puertanueva.png"
     }
 
     method abrir(){
@@ -46,9 +79,14 @@ class Puerta {
 
     method cerrar() {
         abierta = false
+        
     }
 
     method puntos() = piso * 10  // piso 1 = 10pts, piso 2 = 20pts, piso 3 = 30pts
+
+    method agarrarBolsa(){
+      abierta = false
+    }
 }   
 
 const puerta1 = new Puerta(position = game.at(2, 2), piso = 1)
@@ -61,20 +99,19 @@ const puerta6 = new Puerta(position = game.at(7, 8), piso = 3)
 program juego {
   
   game.title("Trash Bandicoot")
-  game.cellSize(80)
-  game.width(10)  
-  game.height(10)
+  game.cellSize(100)
+  game.width(9)  
+  game.height(9)
 
    const puertas = [puerta1,puerta2,puerta3,puerta4,puerta5,puerta6]
   
-  // game.boardGround("assets/edificio.png")
-  puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
+   //game.boardGround("assets/edificio.png")
+   puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
 
 
   game.onTick(3000,"abrirPuerta", {
     const cerradas = puertas.filter({puerta => !puerta.abierta()})
     if (cerradas.size() > 0){
-
         const elegida = cerradas.get((0).randomUpTo(cerradas.size()))
         elegida.abrir()
 
@@ -88,12 +125,26 @@ program juego {
 
   game.addVisual(jugador)
 
-  keyboard.right().onPressDo({ jugador.moverDerecha() })
+  keyboard.right().onPressDo({ jugador.moverDerecha() }) // movmiento
   keyboard.left().onPressDo({ jugador.moverIzquierda() })
   keyboard.up().onPressDo({ jugador.moverArriba() })
   keyboard.down().onPressDo({ jugador.moverAbajo() })
 
+  keyboard.space().onPressDo({
+    const puertaEnFrenteDeCrash = puertas.find({puerta => puerta.abierta() && puerta.position() == jugador.position()})
+    if(puertas != null && !jugador.tieneBolsa()){ // SOLO PUEDE AGARRAR 1 BOLSA A LA VEZ
+      
+      puertaEnFrenteDeCrash.agarrarBolsa()
+      jugador.agarrar()
+    }
+   })
 
+  game.addVisual(hud) // agregar contador de tiempo y puntaje (provicional)
+  game.onTick(1000, "bajarTiempo", {cronometro.tick() game.say(hud, hud.texto())  
+  if (cronometro.seTerminoElTiempo()) {game.stop()}})
   game.start()
 }
+
+
+
 
