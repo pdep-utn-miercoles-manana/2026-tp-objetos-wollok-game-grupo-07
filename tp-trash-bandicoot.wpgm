@@ -40,12 +40,13 @@ object puntaje {
   }
   
 }
+
 object mapa {
   const filasDePiso = [0, 1, 2, 4, 6]       
   const columnasDeEscalera = [0, 8]
   
   method esTransitable(posicion) {
-    const estaEnElMapa = posicion.x() >= 0 && posicion.x() <= 9 && posicion.y() >= 0 && posicion.y() <= 7 // se me fue para afuera
+    const estaEnElMapa = posicion.x() >= 0 && posicion.x() <= 8 && posicion.y() >= 0 && posicion.y() <= 6 // se me fue para afuera
     const enPisoOEscalera = filasDePiso.contains(posicion.y()) || columnasDeEscalera.contains(posicion.x())
     return estaEnElMapa && enPisoOEscalera
   }
@@ -156,7 +157,7 @@ class PowerUpMultiplicador inherits PowerUps{
 
   override method aplicar(unJugador){
     puntaje.multiplicador()
-    game.schedule(10000, {puntaje.dejarMultiplicar()})
+    game.onTick(10000,"dejarMultiplicar", {puntaje.dejarMultiplicar()})
   }
 }
 
@@ -206,12 +207,13 @@ program juego {
 
    const puertas = [puerta1, puerta2, puerta3, puerta4, puerta5, puerta6, puerta7, puerta8, puerta9]
   
+   /
   //game.boardGround("assets/fondo_hotel.png")
    //game.boardGround("assets/fondotemporal.jpg")
-   puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
+  puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
 
 
-  game.schedule(3000, {
+  game.onTick(3000,"abrirPuertas", {
     const cerradas = puertas.filter({puerta => !puerta.abierta()})
     if (cerradas.size() > 0){
         const elegida = cerradas.get((0).randomUpTo(cerradas.size()))
@@ -221,7 +223,7 @@ program juego {
   }) // cada 3 segundos abri puerta random
 
 
-    game.schedule(10000, 
+    game.onTick(10000,"cerrarPuertas", 
     {puertas.filter({ puerta => puerta.abierta() }).forEach({ puerta => puerta.cerrar() }) // de las puertas cerrarlas cada 10seg (hay q probarla ni idea)
   }) // CADA 10 SEGUNDOS CERRALAS
 
@@ -251,7 +253,7 @@ program juego {
     })
 
   game.addVisual(hud)
-  game.schedule(1000, {
+  game.onTick(1000,"actualizarCronometro", {
   cronometro.tick()
   if (cronometro.seTerminoElTiempo()) { game.stop() }
   }) // cada 1 segundo baja el tiempo del hud
