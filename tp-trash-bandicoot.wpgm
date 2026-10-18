@@ -4,7 +4,7 @@ object hud {
   method position() = game.at(1, 0)
   method text() = "Tiempo: " + cronometro.segundos() + "  Puntaje: " + puntaje.total()
   method textColor() = "000000FF"  //negro
-  method textSize() = 30 // pq se ve ultra chiquito
+  method textSize() = 30 // pq se ve ultra chiquito (parece que no sirve xd)
 }
 
 object cronometro {
@@ -22,12 +22,34 @@ object cronometro {
 
 object puntaje {
   var property total = 0
-  method sumar(puntos) { total +=  puntos }
+  var multiplicar = false
+  method sumar(puntos) { 
+    if(multiplicar){
+      total +=  puntos * 2
+    } else {
+      total +=  puntos
+    }
+  }
   method image() = "assets/invisible.png"  
   method position() = game.at(3, 9)
+  method multiplicador(){
+    multiplicar = true
+  }
+  method dejarMultiplicar(){
+    multiplicar = false
+  }
   
 }
-
+object mapa {
+  const filasDePiso = [0, 1, 2, 4, 6]       
+  const columnasDeEscalera = [0, 8]
+  
+  method esTransitable(posicion) {
+    const estaEnElMapa = posicion.x() >= 0 && posicion.x() <= 9 && posicion.y() >= 0 && posicion.y() <= 7 // se me fue para afuera
+    const enPisoOEscalera = filasDePiso.contains(posicion.y()) || columnasDeEscalera.contains(posicion.x())
+    return estaEnElMapa && enPisoOEscalera
+  }
+}
 
 object jugador {
     var property position = game.at(4, 2) // posicion inicial
@@ -38,55 +60,16 @@ object jugador {
     if (tieneBolsa) return "assets/crashfrontalbolsa.png"
     else return "assets/frontalpersonaje.png"
   }
-    // LISTA DE COLICIONES
-    const posicionesValidas = [
-      // planta baja 
-      game.at(0,0), game.at(1,0), game.at(2,0), game.at(3,0), game.at(4,0),
-      game.at(5,0), game.at(6,0), game.at(7,0), game.at(8,0),
-      game.at(0,1), game.at(1,1), game.at(2,1), game.at(3,1), game.at(4,1),
-      game.at(5,1), game.at(6,1), game.at(7,1), game.at(8,1),
-
-      // piso 1 (y=2) 
-      game.at(1,2), game.at(2,2), game.at(3,2), game.at(4,2),
-      game.at(5,2), game.at(6,2), game.at(7,2),
-
-      // Escaleras entre piso 1 y 2 (x=0 y x=8, y=3 y y=4)
-      game.at(0,2), game.at(0,3), game.at(0,4),
-      game.at(8,2), game.at(8,3), game.at(8,4),
-
-      // Piso 2 (y=5) 
-      game.at(1,5), game.at(2,5), game.at(3,5), game.at(4,5),
-      game.at(5,5), game.at(6,5), game.at(7,5),
-
-      // Escaleras entre piso 2 y 3 (x=0 y x=8, y=6 y y=7)
-      game.at(0,5), game.at(0,6), game.at(0,7),
-      game.at(8,5), game.at(8,6), game.at(8,7),
-
-      // Piso 3 (y=8) 
-      game.at(1,8), game.at(2,8), game.at(3,8), game.at(4,8),
-      game.at(5,8), game.at(6,8), game.at(7,8),
-      game.at(0,8), game.at(8,8)
-    ]
-     // forma mas dificil de hacer colisiones creo que esta bien, igual despues pregunto
-    method moverDerecha() {
-    const nueva = game.at(position.x() + 1, position.y())
-    if (posicionesValidas.contains(nueva)) position = nueva
+    
+    method intentarMover(posicionNueva){
+      if(mapa.esTransitable(posicionNueva)){
+        position = posicionNueva
+      }
     }
-
-    method moverIzquierda() {
-    const nueva = game.at(position.x() - 1, position.y())
-    if (posicionesValidas.contains(nueva)) position = nueva
-    }
-
-    method moverArriba() {
-    const nueva = game.at(position.x(), position.y() + 1)
-    if (posicionesValidas.contains(nueva)) position = nueva
-    }
-
-    method moverAbajo() {
-    const nueva = game.at(position.x(), position.y() - 1)
-    if (posicionesValidas.contains(nueva)) position = nueva
-    }
+    method moverDerecha()   { self.intentarMover(position.right(1)) }
+    method moverIzquierda() { self.intentarMover(position.left(1)) }
+    method moverArriba()    { self.intentarMover(position.up(1)) }
+    method moverAbajo()     { self.intentarMover(position.down(1)) }  
 
     method agarrar(puerta){ 
       tieneBolsa = true
@@ -134,15 +117,64 @@ class Puerta {
     }
 }   
 
-const puerta1 = new Puerta(position = game.at(1, 2), piso = 1)
-const puerta2 = new Puerta(position = game.at(4, 2), piso = 1)  // nueva del medio
-const puerta3 = new Puerta(position = game.at(7, 2), piso = 1)
-const puerta4 = new Puerta(position = game.at(1, 5), piso = 2)
-const puerta5 = new Puerta(position = game.at(4, 5), piso = 2)  // nueva del medio
-const puerta6 = new Puerta(position = game.at(7, 5), piso = 2)
-const puerta7 = new Puerta(position = game.at(1, 8), piso = 3)
-const puerta8 = new Puerta(position = game.at(4, 8), piso = 3)  // nueva del medio
-const puerta9 = new Puerta(position = game.at(7, 8), piso = 3)
+const puerta1 = new Puerta(position = game.at(2, 2), piso = 1)
+const puerta2 = new Puerta(position = game.at(4, 2), piso = 1)  
+const puerta3 = new Puerta(position = game.at(6, 2), piso = 1)
+const puerta4 = new Puerta(position = game.at(2, 4), piso = 2)
+const puerta5 = new Puerta(position = game.at(4, 4), piso = 2)  
+const puerta6 = new Puerta(position = game.at(6, 4), piso = 2)
+const puerta7 = new Puerta(position = game.at(2, 6), piso = 3)
+const puerta8 = new Puerta(position = game.at(4, 6), piso = 3)  
+const puerta9 = new Puerta(position = game.at(6, 6), piso = 3)
+
+class PowerUps {
+  var property position
+  
+  //method image() = "assets/powerup.png" 
+  
+  method loAgarraron(unJugador){
+    game.removeVisual(self)
+    self.aplicar(unJugador)
+  } 
+  method aplicar(unJugador) {
+    // se puede implementar para cada uno de los power ups
+  }
+
+}
+
+class PowerUpTeletransporte inherits PowerUps{
+
+  //method image() =
+
+  override method aplicar(unJugador){
+    unJugador.position(camionRecolector.position())
+  }
+}
+
+class PowerUpMultiplicador inherits PowerUps{
+ //method image() =
+
+  override method aplicar(unJugador){
+    puntaje.multiplicador()
+    game.schedule(10000, {puntaje.dejarMultiplicar()})
+  }
+}
+
+class PowerUpCascaraDeBanana inherits PowerUps{
+  //method image() =
+
+  override method aplicar(unJugador){
+    unJugador.soltar()
+  }
+}
+
+class PowerUpRelojRoto inherits PowerUps{
+  //method image() =
+
+  override method aplicar(unJugador){
+    cronometro.agregarTiempo(-5)
+  }
+}
 
 object camionRecolector {
   var property position = game.at(4,0)
@@ -174,12 +206,12 @@ program juego {
 
    const puertas = [puerta1, puerta2, puerta3, puerta4, puerta5, puerta6, puerta7, puerta8, puerta9]
   
-   game.boardGround("assets/fondo_hotel.png")
+  //game.boardGround("assets/fondo_hotel.png")
    //game.boardGround("assets/fondotemporal.jpg")
    puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
 
 
-  game.onTick(3000,"abrirPuerta", {
+  game.schedule(3000, {
     const cerradas = puertas.filter({puerta => !puerta.abierta()})
     if (cerradas.size() > 0){
         const elegida = cerradas.get((0).randomUpTo(cerradas.size()))
@@ -189,9 +221,9 @@ program juego {
   }) // cada 3 segundos abri puerta random
 
 
-    game.onTick(10000, "cerrarPuertas", {
-    puertas.filter({ puerta => puerta.abierta() }).forEach({ puerta => puerta.cerrar() }) // de las puertas cerrarlas cada 10seg (hay q probarla ni idea)
-  })
+    game.schedule(10000, 
+    {puertas.filter({ puerta => puerta.abierta() }).forEach({ puerta => puerta.cerrar() }) // de las puertas cerrarlas cada 10seg (hay q probarla ni idea)
+  }) // CADA 10 SEGUNDOS CERRALAS
 
   game.addVisual(jugador)
   game.addVisual(camionRecolector)
@@ -219,10 +251,10 @@ program juego {
     })
 
   game.addVisual(hud)
-  game.onTick(1000, "bajarTiempo", {
+  game.schedule(1000, {
   cronometro.tick()
   if (cronometro.seTerminoElTiempo()) { game.stop() }
-  })
+  }) // cada 1 segundo baja el tiempo del hud
 
   game.start()
 }
