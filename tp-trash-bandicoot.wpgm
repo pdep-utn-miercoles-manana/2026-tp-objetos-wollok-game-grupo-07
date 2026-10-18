@@ -131,8 +131,8 @@ const puerta9 = new Puerta(position = game.at(6, 6), piso = 3)
 
 
 object powerUpTeletransporte {
-
-  //method image() =
+  var property position = game.at(-10,0)
+  method image() = "assets/powerupteletransporte.png" 
 
   method aplicar(unJugador){
     unJugador.position(camionRecolector.position())
@@ -140,16 +140,19 @@ object powerUpTeletransporte {
 }
 
 object powerUpMultiplicador {
- //method image() =
+  var property position = game.at(-10,0)
+
+  method image() = "assets/powerupmultiplicador.png"
 
   method aplicar(unJugador){
     puntaje.multiplicador()
-    game.onTick(10000,"dejarMultiplicar", {puntaje.dejarMultiplicar()})
+    game.schedule(10000, {puntaje.dejarMultiplicar()})
   }
 }
 
 object powerUpCascaraDeBanana {
-  //method image() =
+  var property position = game.at(-10,0)
+  method image() = "assets/powerupbanana.png"
 
   method aplicar(unJugador){
     unJugador.soltar()
@@ -157,7 +160,8 @@ object powerUpCascaraDeBanana {
 }
 
 object powerUpRelojRoto {
-  //method image() =
+  var property position = game.at(-10,0)
+  method image() = "assets/poweruprelojroto.png"
 
   method aplicar(unJugador){
     cronometro.agregarTiempo(-5)
@@ -177,6 +181,37 @@ object camionRecolector {
 }
 }
 
+object powerUpsRevisar {
+  const powerUps = [powerUpTeletransporte, powerUpMultiplicador, powerUpCascaraDeBanana, powerUpRelojRoto]
+  var activoAhora = null
+
+  method iniciar(){
+    powerUps.forEach({ powerUp => game.addVisual(powerUp) })
+  }
+
+  method hacerAparecer(){
+    activoAhora = powerUps.get((0).randomUpTo(powerUps.size()))
+    const escaleras = [0, 8]
+    const escaleraElegida = escaleras.get((0).randomUpTo(escaleras.size()))
+    activoAhora.position(game.at(escaleraElegida, (0).randomUpTo(7)))
+    game.addVisual(activoAhora)
+  }
+
+  method ocultar() {
+    if (activoAhora != null) {
+      game.removeVisual(activoAhora)
+      activoAhora = null
+    }
+  }
+
+  method revisarColision(jugador) {
+    if (activoAhora != null && activoAhora.position() == jugador.position()) {
+      activoAhora.aplicar(jugador)
+      self.ocultar()
+    }
+  }
+}
+
 program juego {
   
   game.title("Trash Bandicoot")
@@ -194,9 +229,9 @@ program juego {
 
    const puertas = [puerta1, puerta2, puerta3, puerta4, puerta5, puerta6, puerta7, puerta8, puerta9]
   
-   /
+   
   //game.boardGround("assets/fondo_hotel.png")
-   //game.boardGround("assets/fondotemporal.jpg")
+  //game.boardGround("assets/fondotemporal.jpg")
   puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
 
 
@@ -245,8 +280,9 @@ program juego {
   if (cronometro.seTerminoElTiempo()) { game.stop() }
   }) // cada 1 segundo baja el tiempo del hud
 
+  powerUpsRevisar.iniciar()
 
-  const powerUpsNivel1 = []
-
+  game.onTick(7500, "aparecerPowerUp", { powerUpsRevisar.hacerAparecer() })
+  game.onTick(7000, "ocultarPowerUpSiSigue", { powerUpsRevisar.ocultar() })
   game.start()
 }
