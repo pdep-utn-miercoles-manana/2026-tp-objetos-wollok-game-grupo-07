@@ -128,51 +128,38 @@ const puerta7 = new Puerta(position = game.at(2, 6), piso = 3)
 const puerta8 = new Puerta(position = game.at(4, 6), piso = 3)  
 const puerta9 = new Puerta(position = game.at(6, 6), piso = 3)
 
-class PowerUps {
-  var property position
-  
-  //method image() = "assets/powerup.png" 
-  
-  method loAgarraron(unJugador){
-    game.removeVisual(self)
-    self.aplicar(unJugador)
-  } 
-  method aplicar(unJugador) {
-    // se puede implementar para cada uno de los power ups
-  }
 
-}
 
-class PowerUpTeletransporte inherits PowerUps{
+object powerUpTeletransporte {
 
   //method image() =
 
-  override method aplicar(unJugador){
+  method aplicar(unJugador){
     unJugador.position(camionRecolector.position())
   }
 }
 
-class PowerUpMultiplicador inherits PowerUps{
+object powerUpMultiplicador {
  //method image() =
 
-  override method aplicar(unJugador){
+  method aplicar(unJugador){
     puntaje.multiplicador()
     game.onTick(10000,"dejarMultiplicar", {puntaje.dejarMultiplicar()})
   }
 }
 
-class PowerUpCascaraDeBanana inherits PowerUps{
+object powerUpCascaraDeBanana {
   //method image() =
 
-  override method aplicar(unJugador){
+  method aplicar(unJugador){
     unJugador.soltar()
   }
 }
 
-class PowerUpRelojRoto inherits PowerUps{
+object powerUpRelojRoto {
   //method image() =
 
-  override method aplicar(unJugador){
+  method aplicar(unJugador){
     cronometro.agregarTiempo(-5)
   }
 }
@@ -258,9 +245,8 @@ program juego {
   if (cronometro.seTerminoElTiempo()) { game.stop() }
   }) // cada 1 segundo baja el tiempo del hud
 
+
+  const powerUpsNivel1 = []
+
   game.start()
 }
-
-
-
-
