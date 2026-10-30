@@ -111,7 +111,7 @@ class Nivel {
             } else {
                 const puertaAbierta = puertas.findOrElse(
                     { p => p.abierta() && p.position() == jugador.position() },
-                    { null }
+                    { null } // raro
                 )
                 if (puertaAbierta != null) {
                     puertaAbierta.agarrarBolsa()
@@ -121,7 +121,7 @@ class Nivel {
         })
 
         keyboard.r().onPressDo({ self.iniciar() })
-        keyboard.q().onPressDo({ menuPrincipal.iniciar() })
+        keyboard.q().onPressDo({ menuPrincipalImagen.iniciar() })
 
         game.addVisual(hudNivel)
         game.addVisual(hudTiempo)
@@ -139,7 +139,7 @@ class Nivel {
         new OpcionMenu(nombre = "Reiniciar nivel", position = game.at(3, fila), accion = { self.iniciar() })
 
     method opcionVolverAlMenu(fila) =
-        new OpcionMenu(nombre = "Volver al menu principal", position = game.at(3, fila), accion = { menuPrincipal.iniciar() })
+        new OpcionMenu(nombre = "Volver al menu principal", position = game.at(3, fila), accion = { menuPrincipalImagen.iniciar() })
 
 
     method ganar() {
@@ -157,12 +157,11 @@ class Nivel {
     }
 }
 
-const nivel1 = new Nivel(numero = 1, tiempo = 50, tiempoAbrirPuertas = 3000, tiempoCerrarPuertas = 10000, 
-                            tiempoAparicionPowerUp = 5000, puntosParaGanar = 0)
-const nivel2 = new Nivel(numero = 2, tiempo = 40, tiempoAbrirPuertas = 3500, tiempoCerrarPuertas = 7000, 
-                            tiempoAparicionPowerUp = 6000, puntosParaGanar = 0)
-const nivel3 = new Nivel(numero = 3, tiempo = 30, tiempoAbrirPuertas = 4000, tiempoCerrarPuertas = 5000, 
-                            tiempoAparicionPowerUp = 7000, puntosParaGanar = 0)
+const nivel1 = new Nivel(numero = 1, tiempo = 50, tiempoAbrirPuertas = 3000, tiempoCerrarPuertas = 10000, tiempoAparicionPowerUp = 5000, puntosParaGanar = 25)
+const nivel2 = new Nivel(numero = 2, tiempo = 45, tiempoAbrirPuertas = 3500, tiempoCerrarPuertas = 7000, tiempoAparicionPowerUp = 6000, puntosParaGanar = 30)
+const nivel3 = new Nivel(numero = 3, tiempo = 40, tiempoAbrirPuertas = 4000, tiempoCerrarPuertas = 5000, tiempoAparicionPowerUp = 7000, puntosParaGanar = 35)
+const nivel4 = new Nivel(numero = 4, tiempo = 35, tiempoAbrirPuertas = 4500, tiempoCerrarPuertas = 3500, tiempoAparicionPowerUp = 7000, puntosParaGanar = 30)
+const nivel5 = new Nivel(numero = 5, tiempo = 30, tiempoAbrirPuertas = 4500, tiempoCerrarPuertas = 3500, tiempoAparicionPowerUp = 7000, puntosParaGanar = 30)
 
 class OpcionMenu {
     const property nombre

@@ -135,14 +135,89 @@ class Menu {
     }
 }
 
-const menuPrincipal = new Menu(opciones = [
-    new OpcionMenu(nombre = "Iniciar", position = game.at(3, 5), accion = { nivel1.iniciar() }),
-    new OpcionMenu(nombre = "Niveles", position = game.at(3, 4), accion = { selectorNiveles.iniciar() })
-], titulo = "MENU PRINCIPAL")
 
-const selectorNiveles = new Menu(opciones = [
-    new OpcionMenu(nombre = "Nivel 1", position = game.at(3, 6), accion = { nivel1.iniciar() }),
-    new OpcionMenu(nombre = "Nivel 2", position = game.at(3, 5), accion = { nivel2.iniciar() }),
-    new OpcionMenu(nombre = "Nivel 3", position = game.at(3, 4), accion = { nivel3.iniciar() }),
-    new OpcionMenu(nombre = "Volver", position = game.at(3, 3), accion = { menuPrincipal.iniciar() })
-], titulo = "SELECTOR DE NIVELES")
+object menuPrincipalImagen {
+    var opcionSeleccionada = 0
+
+    method position() = game.at(0, 0)
+
+    method image() {
+        if (opcionSeleccionada == 0)
+            return "assets/menu_principal1.png"
+        else
+            return "assets/menu_principal2.png"
+    }
+
+    method iniciar() {
+        nivel1.siguiente(nivel2)
+        nivel2.siguiente(nivel3)
+
+        game.clear()
+        musica.activar()
+        opcionSeleccionada = 0
+
+        game.addVisual(self)
+
+        keyboard.up().onPressDo({ self.subir() })
+        keyboard.down().onPressDo({ self.bajar() })
+        keyboard.enter().onPressDo({ self.elegir() })
+    }
+
+    method subir() {
+        opcionSeleccionada = [opcionSeleccionada - 1, 0].max()
+    }
+
+    method bajar() {
+        opcionSeleccionada = [opcionSeleccionada + 1, 1].min()
+    }
+
+    method elegir() {
+        if (opcionSeleccionada == 0)
+            nivel1.iniciar()
+        else
+            selectorNiveles.iniciar()
+    }
+}
+
+object selectorNiveles {
+    var opcionSeleccionada = 0
+    // 0=nivel1, 1=nivel2, 2=nivel3, 3=nivel4, 4=nivel5, 5=volver
+
+    method position() = game.at(0, 0)
+
+    method image() {
+        if (opcionSeleccionada == 0) return "assets/selector_niveles1.png"
+        else if (opcionSeleccionada == 1) return "assets/selector_niveles2.png"
+        else if (opcionSeleccionada == 2) return "assets/selector_niveles3.png"
+        else if (opcionSeleccionada == 3) return "assets/selector_niveles4.png"
+        else if (opcionSeleccionada == 4) return "assets/selector_niveles5.png"
+        else return "assets/selector_niveles6.jpg"
+    }
+
+    method iniciar() {
+        game.clear()
+        opcionSeleccionada = 0
+        game.addVisual(self)
+        keyboard.up().onPressDo({ self.subir() })
+        keyboard.down().onPressDo({ self.bajar() })
+        keyboard.enter().onPressDo({ self.elegir() })
+    }
+
+    method subir() {
+        opcionSeleccionada = [opcionSeleccionada - 1, 0].max()
+    }
+
+    method bajar() {
+        opcionSeleccionada = [opcionSeleccionada + 1, 5].min()
+    }
+
+    method elegir() {
+        if (opcionSeleccionada == 0) nivel1.iniciar()
+        else if (opcionSeleccionada == 1) nivel2.iniciar()
+        else if (opcionSeleccionada == 2) nivel3.iniciar()
+        else if (opcionSeleccionada == 3) nivel4.iniciar()
+        else if (opcionSeleccionada == 4) nivel5.iniciar()
+        else menuPrincipalImagen.iniciar()
+    }
+}
+
