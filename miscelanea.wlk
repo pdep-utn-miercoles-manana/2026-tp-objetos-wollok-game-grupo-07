@@ -78,12 +78,24 @@ object mapa {
 }
 
 object musica {
+    var sonando = false
+    var fondo = game.sound("assets/musica_fondo.wav")
+
     method activar() {
-        const fondo = game.sound("assets/musica_fondo.wav")
+        if (sonando) { fondo.stop() }
+        fondo = game.sound("assets/musica_fondo.wav")
         fondo.shouldLoop(true)
         fondo.volume(0.1)
         game.schedule(500, { fondo.play() })
+        sonando = true
         keyboard.m().onPressDo({ fondo.volume(0) })
+    }
+
+    method detener() {
+        if (sonando) {
+            fondo.stop()
+            sonando = false
+        }
     }
 }
 
@@ -221,3 +233,121 @@ object selectorNiveles {
     }
 }
 
+object pantallaGanar {
+    var opcionSeleccionada = 0
+    var nivelActual = null
+    
+
+    method tieneSiguiente() = nivelActual != null && nivelActual.siguiente() != null
+
+    method cantOpciones() = if (self.tieneSiguiente()) 2 else 1
+
+    method position() = game.at(0, 0)
+
+    method image() {
+        if (self.tieneSiguiente()) {
+            if (opcionSeleccionada == 0) return "assets/nivel_completado1.png"
+            else if (opcionSeleccionada == 1) return "assets/nivel_completado2.png"
+            else return "assets/nivel_completado3.png"
+        } else {
+            if (opcionSeleccionada == 0) return "assets/nivel_completado2.png"
+            else return "assets/nivel_completado3.png"
+        }
+    }
+
+    method iniciar(unNivel) {
+        nivelActual = unNivel
+        opcionSeleccionada = 0
+        game.clear()
+        musica.detener()
+        game.addVisual(self)
+        keyboard.up().onPressDo({ self.subir() })
+        keyboard.down().onPressDo({ self.bajar() })
+        keyboard.enter().onPressDo({ self.elegir() })
+    }
+
+    method subir() {
+        opcionSeleccionada = [opcionSeleccionada - 1, 0].max()
+    }
+
+    method bajar() {
+        opcionSeleccionada = [opcionSeleccionada + 1, self.cantOpciones()].min()
+    }
+
+    method elegir() {
+        if (self.tieneSiguiente()) {
+            if (opcionSeleccionada == 0) nivelActual.siguiente().iniciar()
+            else if (opcionSeleccionada == 1) nivelActual.iniciar()
+            else menuPrincipalImagen.iniciar()
+        } else {
+            if (opcionSeleccionada == 0) nivelActual.iniciar()
+            else menuPrincipalImagen.iniciar()
+        }
+    }
+}
+
+object pantallaPerder {
+    var opcionSeleccionada = 0
+    var nivelActual = null
+    
+
+    method position() = game.at(0, 0)
+
+    method image() {
+        if (opcionSeleccionada == 0) return "assets/nivel_perdido1.png"
+        else return "assets/nivel_perdido2.png"
+    }
+
+    method iniciar(unNivel) {
+        nivelActual = unNivel
+        opcionSeleccionada = 0
+        game.clear()
+        musica.detener()
+        game.addVisual(self)
+        keyboard.up().onPressDo({ self.subir() })
+        keyboard.down().onPressDo({ self.bajar() })
+        keyboard.enter().onPressDo({ self.elegir() })
+    }
+
+    method subir() {
+        opcionSeleccionada = [opcionSeleccionada - 1, 0].max()
+    }
+
+    method bajar() {
+        opcionSeleccionada = [opcionSeleccionada + 1, 1].min()
+    }
+
+    method elegir() {
+        if (opcionSeleccionada == 0) nivelActual.iniciar()
+        else menuPrincipalImagen.iniciar()
+    }
+}
+
+object intro {
+    var imagenActual = 0
+    const imagenes = [
+        "assets/intro1.jpg",
+        "assets/intro2.jpg",
+        "assets/intro3.png",
+        "assets/intro4.png"
+    ]
+
+    method position() = game.at(0, 0)
+
+    method image() = imagenes.get(imagenActual)
+
+    method iniciar() {
+        imagenActual = 0
+        game.clear()
+        game.addVisual(self)
+        keyboard.enter().onPressDo({ self.siguiente() })
+    }
+
+    method siguiente() {
+        if (imagenActual < imagenes.size() - 1) {
+            imagenActual += 1
+        } else {
+            menuPrincipalImagen.iniciar()
+        }
+    }
+}

@@ -11,7 +11,7 @@ program juego {
   game.width(9)  
   game.height(9)
 
-  menuPrincipalImagen.iniciar()
+  intro.iniciar()
   
   game.start()
 }

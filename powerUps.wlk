@@ -52,7 +52,7 @@ object powerUpRelojBueno {
 
 object powerUpControlesInvertidos {
   var property position = game.at(0,0)
-  method image() = "assets/puertanuevahombre.png" // provisional
+  method image() = "assets/powerupcontrolesinvertidos.png" 
 
   method aplicar(unJugador){
     unJugador.activarControlesInvertidos()

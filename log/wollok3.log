@@ -489,3 +489,79 @@
 {"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mtp-trash-bandicoot.juego\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07\u001b[39m\u001b[23m","ok":true,"timeElapsed":545,"timestamp":"2026-10-30T15:57:55.848Z"}
 {"exitCode":"SIGHUP","level":"info","message":"👾 Game executed tp-trash-bandicoot.juego on c:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07","timeElapsed":316124,"timestamp":"2026-10-30T16:03:11.430Z"}
 {"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mtp-trash-bandicoot.juego\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07\u001b[39m\u001b[23m","ok":true,"timeElapsed":460,"timestamp":"2026-10-30T16:03:13.208Z"}
+{"exitCode":"SIGHUP","level":"info","message":"👾 Game executed tp-trash-bandicoot.juego on c:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07","timeElapsed":25610893,"timestamp":"2026-10-30T23:10:03.513Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":224,"timestamp":"2026-10-31T00:04:31.477Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":307,"timestamp":"2026-10-31T00:04:31.788Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":138,"timestamp":"2026-10-31T00:04:31.965Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":175,"timestamp":"2026-10-31T00:04:32.345Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":251,"timestamp":"2026-10-31T00:04:32.597Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":196,"timestamp":"2026-10-31T00:04:32.800Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":110,"timestamp":"2026-10-31T00:04:32.975Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":153,"timestamp":"2026-10-31T00:04:33.129Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":255,"timestamp":"2026-10-31T00:04:33.384Z"}
+{"level":"info","message":"⌛ Validating tp-trash-bandicoot.wpgm","timeElapsed":120,"timestamp":"2026-10-31T00:04:33.504Z"}
+{"level":"info","message":"⌛ Validating powerUps.wlk","timeElapsed":112,"timestamp":"2026-10-31T00:04:33.616Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":107,"timestamp":"2026-10-31T00:04:33.725Z"}
+{"level":"info","message":"⌛ Validating personajes.wlk","timeElapsed":105,"timestamp":"2026-10-31T00:04:34.009Z"}
+{"level":"info","message":"⌛ Validating clases.wlk","timeElapsed":118,"timestamp":"2026-10-31T00:04:34.127Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":183,"timestamp":"2026-10-31T00:04:35.479Z"}
+{"level":"info","message":"⌛ Validating tp-trash-bandicoot.wpgm","timeElapsed":133,"timestamp":"2026-10-31T00:04:35.612Z"}
+{"level":"info","message":"⌛ Validating powerUps.wlk","timeElapsed":124,"timestamp":"2026-10-31T00:04:35.736Z"}
+{"level":"info","message":"⌛ Validating personajes.wlk","timeElapsed":164,"timestamp":"2026-10-31T00:04:35.902Z"}
+{"level":"info","message":"⌛ Validating clases.wlk","timeElapsed":153,"timestamp":"2026-10-31T00:04:36.056Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":130,"timestamp":"2026-10-31T00:09:32.325Z"}
+{"level":"info","message":"⌛ Validating clases.wlk","timeElapsed":111,"timestamp":"2026-10-31T00:09:37.413Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":133,"timestamp":"2026-10-31T00:11:23.536Z"}
+{"level":"info","message":"⌛ Validating clases.wlk","timeElapsed":107,"timestamp":"2026-10-31T00:11:25.711Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":101,"timestamp":"2026-10-31T00:12:48.785Z"}
+{"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mtp-trash-bandicoot.juego\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07\u001b[39m\u001b[23m","ok":true,"timeElapsed":448,"timestamp":"2026-10-31T00:16:53.986Z"}
+{"exitCode":"SIGHUP","level":"info","message":"👾 Game executed tp-trash-bandicoot.juego on c:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07","timeElapsed":81600,"timestamp":"2026-10-31T00:18:15.138Z"}
+{"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mtp-trash-bandicoot.juego\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07\u001b[39m\u001b[23m","ok":true,"timeElapsed":425,"timestamp":"2026-10-31T00:18:16.961Z"}
+{"exitCode":"SIGHUP","level":"info","message":"👾 Game executed tp-trash-bandicoot.juego on c:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07","timeElapsed":113274,"timestamp":"2026-10-31T00:20:09.811Z"}
+{"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mtp-trash-bandicoot.juego\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07\u001b[39m\u001b[23m","ok":true,"timeElapsed":458,"timestamp":"2026-10-31T00:20:11.552Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":104,"timestamp":"2026-10-31T00:32:18.427Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":102,"timestamp":"2026-10-31T00:32:37.963Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":109,"timestamp":"2026-10-31T00:32:38.259Z"}
+{"exitCode":"SIGHUP","level":"info","message":"👾 Game executed tp-trash-bandicoot.juego on c:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07","timeElapsed":797674,"timestamp":"2026-10-31T00:33:28.769Z"}
+{"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mtp-trash-bandicoot.juego\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07\u001b[39m\u001b[23m","ok":true,"timeElapsed":510,"timestamp":"2026-10-31T00:33:30.962Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":103,"timestamp":"2026-10-31T00:38:35.339Z"}
+{"level":"info","message":"⌛ Validating clases.wlk","timeElapsed":101,"timestamp":"2026-10-31T00:38:58.876Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":107,"timestamp":"2026-10-31T00:38:59.095Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":120,"timestamp":"2026-10-31T00:39:00.568Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":104,"timestamp":"2026-10-31T00:39:25.668Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":115,"timestamp":"2026-10-31T00:39:25.868Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":101,"timestamp":"2026-10-31T00:40:06.808Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":101,"timestamp":"2026-10-31T00:40:07.030Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":134,"timestamp":"2026-10-31T00:41:15.062Z"}
+{"exitCode":"SIGHUP","level":"info","message":"👾 Game executed tp-trash-bandicoot.juego on c:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07","timeElapsed":471703,"timestamp":"2026-10-31T00:41:22.154Z"}
+{"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mtp-trash-bandicoot.juego\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07\u001b[39m\u001b[23m","ok":true,"timeElapsed":601,"timestamp":"2026-10-31T00:41:24.540Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":134,"timestamp":"2026-10-31T02:16:59.983Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":106,"timestamp":"2026-10-31T02:17:00.090Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":102,"timestamp":"2026-10-31T02:17:00.193Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":111,"timestamp":"2026-10-31T03:03:36.327Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":110,"timestamp":"2026-10-31T03:03:36.439Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":119,"timestamp":"2026-10-31T03:03:36.560Z"}
+{"level":"info","message":"⌛ Validating miscelanea.wlk","timeElapsed":110,"timestamp":"2026-10-31T03:03:36.702Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":127,"timestamp":"2026-10-31T03:03:37.032Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":118,"timestamp":"2026-10-31T03:03:37.158Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":116,"timestamp":"2026-10-31T03:04:13.761Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":114,"timestamp":"2026-10-31T03:04:14.007Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":109,"timestamp":"2026-10-31T03:05:26.332Z"}
+{"level":"info","message":"⌛ Validating powerUps.wlk","timeElapsed":101,"timestamp":"2026-10-31T03:05:59.252Z"}
+{"level":"info","message":"⌛ Validating powerUps.wlk","timeElapsed":101,"timestamp":"2026-10-31T03:06:03.174Z"}
+{"level":"info","message":"⌛ Validating powerUps.wlk","timeElapsed":106,"timestamp":"2026-10-31T03:06:03.857Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":104,"timestamp":"2026-10-31T03:06:07.304Z"}
+{"level":"info","message":"⌛ Validating powerUps.wlk","timeElapsed":107,"timestamp":"2026-10-31T03:06:07.842Z"}
+{"level":"info","message":"⌛ Validating powerUps.wlk","timeElapsed":101,"timestamp":"2026-10-31T03:06:09.548Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":119,"timestamp":"2026-10-31T03:06:09.667Z"}
+{"level":"info","message":"⌛ Validating clases.wlk","timeElapsed":105,"timestamp":"2026-10-31T03:08:35.878Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":101,"timestamp":"2026-10-31T03:08:35.981Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":103,"timestamp":"2026-10-31T03:08:37.717Z"}
+{"level":"info","message":"⌛ Validating clases.wlk","timeElapsed":111,"timestamp":"2026-10-31T03:08:38.072Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":158,"timestamp":"2026-10-31T03:08:42.575Z"}
+{"level":"info","message":"⌛ Validating clases.wlk","timeElapsed":121,"timestamp":"2026-10-31T03:08:42.754Z"}
+{"exitCode":"SIGHUP","level":"info","message":"👾 Game executed tp-trash-bandicoot.juego on c:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07","timeElapsed":8842368,"timestamp":"2026-10-31T03:08:46.307Z"}
+{"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mtp-trash-bandicoot.juego\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07\u001b[39m\u001b[23m","ok":true,"timeElapsed":483,"timestamp":"2026-10-31T03:08:49.250Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":102,"timestamp":"2026-10-31T03:10:08.385Z"}
+{"level":"info","message":"⌛ Validating powerUps.wlk","timeElapsed":123,"timestamp":"2026-10-31T03:10:08.538Z"}
+{"exitCode":"SIGHUP","level":"info","message":"👾 Game executed tp-trash-bandicoot.juego on c:\\Users\\franc\\OneDrive\\Desktop\\2026-tp-objetos-wollok-game-grupo-07","timeElapsed":88839,"timestamp":"2026-10-31T03:10:17.606Z"}
