@@ -42,7 +42,7 @@ object powerUpRelojRoto {
 
 object powerUpRelojBueno {
   var property position = game.at(0,0)
-  method image() = "assets/poweruprelojroto.png"
+  method image() = "assets/powerupreloj.png"
 
   method aplicar(unJugador){
     cronometro.agregarTiempo(5)

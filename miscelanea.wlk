@@ -13,12 +13,17 @@ class IndicadorHud {
 
 const hudNivel = new IndicadorHud(position = game.at(0, 8), textoQueMuestra = { "Nivel: " + hud.nivelActual() })
 const hudTiempo = new IndicadorHud(position = game.at(2, 8), textoQueMuestra = { "Tiempo: " + cronometro.segundos() })
-const hudPuntaje = new IndicadorHud(position = game.at(7, 8), textoQueMuestra = { "Puntaje: " + puntaje.total() })
+const hudPuntaje = new IndicadorHud(position = game.at(8, 8), textoQueMuestra = { "Puntaje: " + puntaje.total() })
+const hudPuntosParaGanar = new IndicadorHud(position = game.at(6, 8), textoQueMuestra = { "Meta: " + hud.puntosParaGanar() })
 
 // OBJETOS, HAY 1 SOLO
 object hud {
     var nivelActual = 1
+    var puntosParaGanar = 0
 
+
+    method puntosParaGanar() = puntosParaGanar
+    method puntosParaGanar(n) { puntosParaGanar = n }
     method nivelActual() = nivelActual
     method nivelActual(n) { nivelActual = n }
 
@@ -79,23 +84,20 @@ object mapa {
 
 object musica {
     var sonando = false
-    var fondo = game.sound("assets/musica_fondo.wav")
 
     method activar() {
-        if (sonando) { fondo.stop() }
-        fondo = game.sound("assets/musica_fondo.wav")
-        fondo.shouldLoop(true)
-        fondo.volume(0.1)
-        game.schedule(500, { fondo.play() })
-        sonando = true
-        keyboard.m().onPressDo({ fondo.volume(0) })
+        if (!sonando) {
+            const fondo = game.sound("assets/musica_menu.wav")
+            fondo.shouldLoop(true)
+            fondo.volume(0.1)
+            fondo.play()
+            sonando = true
+            keyboard.m().onPressDo({ fondo.volume(0) })
+        }
     }
 
     method detener() {
-        if (sonando) {
-            fondo.stop()
-            sonando = false
-        }
+        sonando = false // NO FRENA NUNCA XD
     }
 }
 
@@ -154,10 +156,9 @@ object menuPrincipalImagen {
     method position() = game.at(0, 0)
 
     method image() {
-        if (opcionSeleccionada == 0)
-            return "assets/menu_principal1.png"
-        else
-            return "assets/menu_principal2.png"
+        if (opcionSeleccionada == 0) return "assets/menu_principal1.png"
+        else if (opcionSeleccionada == 1) return "assets/menu_principal2.png"
+        else return "assets/menu_principal3.png"
     }
 
     method iniciar() {
@@ -180,14 +181,13 @@ object menuPrincipalImagen {
     }
 
     method bajar() {
-        opcionSeleccionada = [opcionSeleccionada + 1, 1].min()
+        opcionSeleccionada = [opcionSeleccionada + 1, 2].min()
     }
 
     method elegir() {
-        if (opcionSeleccionada == 0)
-            nivel1.iniciar()
-        else
-            selectorNiveles.iniciar()
+        if (opcionSeleccionada == 0) nivel1.iniciar()
+        else if (opcionSeleccionada == 1) selectorNiveles.iniciar()
+        else creditos.iniciar()
     }
 }
 
@@ -328,8 +328,9 @@ object intro {
     const imagenes = [
         "assets/intro1.jpg",
         "assets/intro2.jpg",
-        "assets/intro3.png",
-        "assets/intro4.png"
+        "assets/intro3.jpg",
+        "assets/intro4.jpg",
+        "assets/intro5.jpg"
     ]
 
     method position() = game.at(0, 0)
@@ -351,3 +352,15 @@ object intro {
         }
     }
 }
+
+object creditos {
+    method position() = game.at(0, 0)
+    method image() = "assets/creditos.png"
+
+    method iniciar() {
+        game.clear()
+        game.addVisual(self)
+        keyboard.enter().onPressDo({ menuPrincipalImagen.iniciar() })
+    }
+}
+

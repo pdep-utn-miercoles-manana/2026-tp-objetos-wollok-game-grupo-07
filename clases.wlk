@@ -73,6 +73,7 @@ class Nivel {
         puertas.forEach({puerta => puerta.reiniciar()})
         powerUpsRevisar.reiniciar()
         hud.nivelActual(numero)
+        hud.puntosParaGanar(puntosParaGanar)
 
         game.addVisual(fondoHotel)
         puertas.forEach({ puerta => game.addVisual(puerta) }) // agregar visual de las puertas
@@ -126,6 +127,7 @@ class Nivel {
         game.addVisual(hudNivel)
         game.addVisual(hudTiempo)
         game.addVisual(hudPuntaje)
+        game.addVisual(hudPuntosParaGanar)
         game.onTick(1000,"actualizarCronometro", {
             cronometro.tick()
             if (cronometro.seTerminoElTiempo()) { self.perder() }
