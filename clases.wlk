@@ -164,4 +164,3 @@ const nivel2 = new Nivel(numero = 2, tiempo = 55, tiempoAbrirPuertas = 2500, tie
 const nivel3 = new Nivel(numero = 3, tiempo = 50, tiempoAbrirPuertas = 3000, tiempoCerrarPuertas = 8000,  tiempoAparicionPowerUp = 7000, puntosParaGanar = 200, tiempoValla = 8000)
 const nivel4 = new Nivel(numero = 4, tiempo = 45, tiempoAbrirPuertas = 3500, tiempoCerrarPuertas = 6000,  tiempoAparicionPowerUp = 8000, puntosParaGanar = 250, tiempoValla = 6000)
 const nivel5 = new Nivel(numero = 5, tiempo = 40, tiempoAbrirPuertas = 4000, tiempoCerrarPuertas = 4000,  tiempoAparicionPowerUp = 9000, puntosParaGanar = 300, tiempoValla = 4000)
-
