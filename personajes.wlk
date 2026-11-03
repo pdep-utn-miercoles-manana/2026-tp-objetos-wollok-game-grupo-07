@@ -9,10 +9,12 @@ object camionRecolector {
 
   method agarrarBolsa() {
   if (jugador.deQuePuertaEsBolsa() != null) {
-    puntaje.sumar(jugador.deQuePuertaEsBolsa().puntos())
+      puntaje.sumar(jugador.deQuePuertaEsBolsa().puntos())
     
-    //game.sound("assets/bolsadejar.wav").play()
-  }
+      const s = game.sound("assets/dejarbolsa.wav")
+      s.volume(0.1)
+      s.play()
+    }
  }
 }
 

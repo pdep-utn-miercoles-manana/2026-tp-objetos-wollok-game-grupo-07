@@ -16,19 +16,18 @@ class Puerta {
       return "assets/puertanueva.png"
     }
 
-    method abrir(){
+    method abrir() {
         abierta = true
-        //const volAbrir = game.sound("assets/puerta_abrir.wav").play()
-        //volAbrir.volume(0.01)
-        
+        const s = game.sound("assets/puerta_abrir.wav")
+        s.volume(0.1)
+        s.play()
     }
-      // POR ALGUN MOTIVO CUANDO PONGO VOLUMEN NO FUNCIONA EL MECANISMO DE ABRIR Y CERRAR PUERTAS BIEN
+
     method cerrar() {
         abierta = false
-        //const volCerrar = game.sound("assets/puerta_cerrar.wav").play()
-        //volCerrar.volume(0.01)
-        
-        
+        const s = game.sound("assets/puerta_cerrar.wav")
+        s.volume(0.1)
+        s.play()
     }
 
     method puntos() = piso * 10  // piso 1 = 10pts, piso 2 = 20pts, piso 3 = 30pts
@@ -63,10 +62,10 @@ class Nivel {
     const tiempoAparicionPowerUp
     const tiempo
     const puntosParaGanar
+    const tiempoValla
 
     method iniciar() {
         game.clear()
-        musica.activar()
         cronometro.reiniciar(tiempo)
         jugador.reiniciar()
         puntaje.reiniciar()
@@ -86,7 +85,10 @@ class Nivel {
                 elegida.abrir()
             }
         })
-
+        
+        if (tiempoValla != null) {
+        game.schedule(tiempoValla, { self.activarValla(tiempoValla) })
+        }
 
         game.onTick(tiempoCerrarPuertas,"cerrarPuertas", 
             {puertas.filter({ puerta => puerta.abierta() }).forEach({ puerta => puerta.cerrar() }) // de las puertas cerrarlas cada 10seg (hay q probarla ni idea)
@@ -102,7 +104,9 @@ class Nivel {
 
         keyboard.space().onPressDo({
             if (jugador.tieneBolsa()) {
-                if (jugador.position() == camionRecolector.position()) {
+                if (jugador.position() == camionRecolector.position() || 
+                    jugador.position() == game.at(camionRecolector.position().x() + 1, camionRecolector.position().y()) ||
+                    jugador.position() == game.at(camionRecolector.position().x(), camionRecolector.position().y() + 1)) {
                     camionRecolector.agarrarBolsa()
                     jugador.soltar()
                     if (puntaje.total() >= puntosParaGanar) {
@@ -124,6 +128,7 @@ class Nivel {
         keyboard.r().onPressDo({ self.iniciar() })
         keyboard.q().onPressDo({ menuPrincipalImagen.iniciar() })
 
+        game.addVisual(valla)
         game.addVisual(hudNivel)
         game.addVisual(hudTiempo)
         game.addVisual(hudPuntaje)
@@ -144,11 +149,19 @@ class Nivel {
     method perder() {
         pantallaPerder.iniciar(self)
     }
+
+    method activarValla(tiempoo) {
+    valla.activar()
+    game.schedule(tiempoo, {
+        valla.desactivar()
+        game.schedule(tiempoo, { self.activarValla(tiempoo) })
+    })
+}
 }
 
-const nivel1 = new Nivel(numero = 1, tiempo = 40, tiempoAbrirPuertas = 3000, tiempoCerrarPuertas = 10000, tiempoAparicionPowerUp = 5000, puntosParaGanar = 250)
-const nivel2 = new Nivel(numero = 2, tiempo = 45, tiempoAbrirPuertas = 3500, tiempoCerrarPuertas = 7000, tiempoAparicionPowerUp = 6000, puntosParaGanar = 300)
-const nivel3 = new Nivel(numero = 3, tiempo = 40, tiempoAbrirPuertas = 4000, tiempoCerrarPuertas = 5000, tiempoAparicionPowerUp = 7000, puntosParaGanar = 350)
-const nivel4 = new Nivel(numero = 4, tiempo = 35, tiempoAbrirPuertas = 4500, tiempoCerrarPuertas = 3500, tiempoAparicionPowerUp = 7000, puntosParaGanar = 400)
-const nivel5 = new Nivel(numero = 5, tiempo = 30, tiempoAbrirPuertas = 4500, tiempoCerrarPuertas = 3500, tiempoAparicionPowerUp = 7000, puntosParaGanar = 400)
+const nivel1 = new Nivel(numero = 1, tiempo = 60, tiempoAbrirPuertas = 2000, tiempoCerrarPuertas = 12000, tiempoAparicionPowerUp = 5000, puntosParaGanar = 100, tiempoValla = null)
+const nivel2 = new Nivel(numero = 2, tiempo = 55, tiempoAbrirPuertas = 2500, tiempoCerrarPuertas = 10000, tiempoAparicionPowerUp = 6000, puntosParaGanar = 150, tiempoValla = null)
+const nivel3 = new Nivel(numero = 3, tiempo = 50, tiempoAbrirPuertas = 3000, tiempoCerrarPuertas = 8000,  tiempoAparicionPowerUp = 7000, puntosParaGanar = 200, tiempoValla = 8000)
+const nivel4 = new Nivel(numero = 4, tiempo = 45, tiempoAbrirPuertas = 3500, tiempoCerrarPuertas = 6000,  tiempoAparicionPowerUp = 8000, puntosParaGanar = 250, tiempoValla = 6000)
+const nivel5 = new Nivel(numero = 5, tiempo = 40, tiempoAbrirPuertas = 4000, tiempoCerrarPuertas = 4000,  tiempoAparicionPowerUp = 9000, puntosParaGanar = 300, tiempoValla = 4000)
 

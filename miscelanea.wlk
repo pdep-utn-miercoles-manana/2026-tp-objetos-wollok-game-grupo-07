@@ -78,18 +78,18 @@ object mapa {
   method esTransitable(posicion) {
     const estaEnElMapa = posicion.x() >= 0 && posicion.x() <= 8 && posicion.y() >= 0 && posicion.y() <= 6 // se me fue para afuera
     const enPisoOEscalera = filasDePiso.contains(posicion.y()) || columnasDeEscalera.contains(posicion.x())
-    return estaEnElMapa && enPisoOEscalera
+    return estaEnElMapa && enPisoOEscalera && valla.esTransitable(posicion)
   }
 }
 
 object musica {
     var sonando = false
+    const fondo = game.sound("assets/musica_menu.wav")
 
     method activar() {
         if (!sonando) {
-            const fondo = game.sound("assets/musica_menu.wav")
-            fondo.shouldLoop(true)
-            fondo.volume(0.1)
+            
+            fondo.volume(0.02)
             fondo.play()
             sonando = true
             keyboard.m().onPressDo({ fondo.volume(0) })
@@ -98,6 +98,7 @@ object musica {
 
     method detener() {
         sonando = false // NO FRENA NUNCA XD
+        fondo.stop()
     }
 }
 
@@ -122,7 +123,7 @@ class Menu {
         nivel2.siguiente(nivel3)
 
         game.clear()
-        musica.activar()
+        
         opcionSeleccionada = 0
         self.actualizarSeleccion()
         game.addVisual(new TextoVisual(text = titulo, position = game.at(3, 7)))
@@ -166,7 +167,7 @@ object menuPrincipalImagen {
         nivel2.siguiente(nivel3)
 
         game.clear()
-        musica.activar()
+        
         opcionSeleccionada = 0
 
         game.addVisual(self)
@@ -259,7 +260,9 @@ object pantallaGanar {
         nivelActual = unNivel
         opcionSeleccionada = 0
         game.clear()
-        musica.detener()
+        const s = game.sound("assets/sonido_ganar.wav")
+        s.volume(0.1)
+        s.play()
         game.addVisual(self)
         keyboard.up().onPressDo({ self.subir() })
         keyboard.down().onPressDo({ self.bajar() })
@@ -302,7 +305,9 @@ object pantallaPerder {
         nivelActual = unNivel
         opcionSeleccionada = 0
         game.clear()
-        musica.detener()
+        const s = game.sound("assets/sonido_perder.wav")
+        s.volume(0.1)
+        s.play()
         game.addVisual(self)
         keyboard.up().onPressDo({ self.subir() })
         keyboard.down().onPressDo({ self.bajar() })
@@ -355,7 +360,7 @@ object intro {
 
 object creditos {
     method position() = game.at(0, 0)
-    method image() = "assets/creditos.png"
+    method image() = "assets/creditos.jpg"
 
     method iniciar() {
         game.clear()
@@ -364,3 +369,24 @@ object creditos {
     }
 }
 
+object valla {
+    var property position = game.at(11, 8)  // escondida por defecto
+    var property activa = false
+
+    method image() = "assets/valla.png"
+
+    method activar() {
+        const escaleras = [0, 8]
+        const x = escaleras.get((0).randomUpTo(2).truncate(0))
+        const y = (1).randomUpTo(6).truncate(0)
+        position = game.at(x, y)
+        activa = true
+    }
+
+    method desactivar() {
+        position = game.at(11, 8)
+        activa = false
+    }
+
+    method esTransitable(pos) = !(activa && pos == position)
+}

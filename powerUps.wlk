@@ -18,8 +18,13 @@ object powerUpMultiplicador {
 
   method aplicar(unJugador){
     puntaje.activarMultiplicador()
-    game.schedule(10000, {puntaje.desactivarMultiplicador()})
-  }
+    game.schedule(10000, {
+        puntaje.desactivarMultiplicador()
+        const s = game.sound("assets/powerup_fin.wav")
+        s.volume(0.1)
+        s.play()
+    })
+}
 }
 
 object powerUpCascaraDeBanana {
@@ -45,7 +50,7 @@ object powerUpRelojBueno {
   method image() = "assets/powerupreloj.png"
 
   method aplicar(unJugador){
-    cronometro.agregarTiempo(5)
+    cronometro.agregarTiempo(7)
     
   }
 }
@@ -56,8 +61,13 @@ object powerUpControlesInvertidos {
 
   method aplicar(unJugador){
     unJugador.activarControlesInvertidos()
-    game.schedule(5000, { unJugador.desactivarControlesInvertidos() })
-  }
+    game.schedule(5000, {
+        unJugador.desactivarControlesInvertidos()
+        const s = game.sound("assets/powerup_fin.wav")
+        s.volume(0.1)
+        s.play()
+    })
+}
 }
 
 object powerUpsRevisar {
@@ -80,8 +90,9 @@ object powerUpsRevisar {
     const escaleras = [0, 8]
     const escaleraElegida = escaleras.get((0).randomUpTo(escaleras.size()).truncate(0))
     activoAhora.position(game.at(escaleraElegida, (0).randomUpTo(6).truncate(0)))
-    //const aparecer = game.sound("assets/powerupaparecer.wav").play()
-    //aparecer.volume(0.1)
+    const aparecer = game.sound("assets/powerupaparecer.wav")
+    aparecer.volume(0.1)
+    aparecer.play()
     game.schedule(5000, { self.ocultar() })
   }
 
@@ -95,8 +106,9 @@ object powerUpsRevisar {
   method revisarColision(jugador) {
     if (activoAhora != null && activoAhora.position() == jugador.position()) {
       activoAhora.aplicar(jugador)
-      //const agarrar = game.sound("assets/powerupagarrar.wav").play()
-      //agarrar.volume(0.1)
+      const agarrar = game.sound("assets/powerupagarrar.wav")
+      agarrar.volume(0.1)
+      agarrar.play()
       self.ocultar()
     }
   }
